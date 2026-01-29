@@ -1,5 +1,5 @@
 interface Env {
-    HISTORY_KV: KVNamespace;
+    history_storage: KVNamespace;
     AI: any;
 }
 
@@ -96,12 +96,12 @@ Keep it concise and formatted as JSON with keys: "explanation", "suggestions", "
 
         // saving to kv
         const historyKey = `history:${clientId}`;
-        const existingHistoryRaw = await env.HISTORY_KV.get(historyKey);
+        const existingHistoryRaw = await env.history_storage.get(historyKey);
         let history = existingHistoryRaw ? JSON.parse(existingHistoryRaw) : [];
         history.unshift(auditData);
         // only keep last 20 entires
         history = history.slice(0, 20);
-        await env.HISTORY_KV.put(historyKey, JSON.stringify(history));
+        await env.history_storage.put(historyKey, JSON.stringify(history));
 
         const responseHeaders: Record<string, string> = {
             "Content-Type": "application/json",

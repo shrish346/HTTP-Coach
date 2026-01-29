@@ -1,5 +1,5 @@
 interface Env {
-    HISTORY_KV: KVNamespace;
+    history_storage: KVNamespace;
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
@@ -15,7 +15,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     }
 
     const historyKey = `history:${clientId}`;
-    const historyRaw = await env.HISTORY_KV.get(historyKey);
+    const historyRaw = await env.history_storage.get(historyKey);
     const history = historyRaw ? JSON.parse(historyRaw) : [];
 
     return new Response(JSON.stringify(history), {
